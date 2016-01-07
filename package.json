@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "chalk": "latest",
+        "cheerio": "latest",
+        "mustache": "latest",
+        "progress": "latest",
+        "yargs": "latest"
+    }
+}
