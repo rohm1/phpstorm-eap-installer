@@ -21,3 +21,6 @@ You can execute the script with the node command (`node install.js`) or add a ba
 `phpstorm-eap-installer` will install the latest PhpStorm EAP into your home directory, and create a shortcut on your desktop.
 `phpstorm-eap-installer --renew` will renew the license.
 Run `phpstorm-eap-installer --help` for help.
+
+## Disclaimer
+This script aims at simplifying the installation of PhpStorm EAP. You must purchase a license if you plan to use PhpStorm.
