@@ -1,0 +1,12 @@
+module.exports = require('yargs')
+    .boolean(['v', 'renew', 'h'])
+    .demand('home')
+    .nargs('home', 1)
+    .describe('home', 'the home directory to install to')
+    .default('v', false)
+    .alias('v', 'verbose')
+    .default('renew', false)
+    .describe('renew', 'renew the license')
+    .help('h')
+    .alias('h', 'help')
+    .argv;

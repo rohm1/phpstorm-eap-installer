@@ -3,6 +3,7 @@
         "chalk": "latest",
         "cheerio": "latest",
         "mustache": "latest",
+        "or-die": "latest",
         "progress": "latest",
         "yargs": "latest"
     }
