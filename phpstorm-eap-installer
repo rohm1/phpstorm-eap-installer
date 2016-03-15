@@ -1,4 +1,5 @@
 function phpstorm-eap-installer {
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-    node $DIR/install.js --home $HOME "$@"
+    cd $DIR
+    node install.js --home $HOME "$@"
 }

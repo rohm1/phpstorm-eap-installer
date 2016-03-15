@@ -63,7 +63,7 @@ function dlFromUrl(url, resolve, reject) {
                 return reject('element not found..');
             }
 
-            v = $a.html().match(/EAP\-([0-9]+\.[0-9]+)/)[1];
+            v = $a.html().match(/EAP\-([0-9]+(\.[0-9]+)+)/)[1];
 
             dl($a.attr('href'), targetFile)
                 .then(() => {

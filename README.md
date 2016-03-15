@@ -16,7 +16,7 @@ npm install
 ```
 
 ## Usage
-You can execute the script with the node command (`node install.js`) or add a bash command by adding `source _path_to_your_local_copy/phpstorm-eap-installer` in your `~/.bashrc`.
+You can execute the script with the node command (`cd clone_directory && node install.js`) or add a bash command by adding `source _path_to_your_local_copy/phpstorm-eap-installer` in your `~/.bashrc`.
 
 `phpstorm-eap-installer` will install the latest PhpStorm EAP into your home directory, and create a shortcut on your desktop.
 `phpstorm-eap-installer --renew` will renew the license.
