@@ -9,14 +9,15 @@ var cheerio = require('cheerio'),
     dl = require('./dl'),
     execute = require('./execute'),
     http = require('./http'),
+    absolute = require('./absolute'),
     config = require('./config'),
     i;
 
 require('./mod_logger');
 
 function renew() {
-    execute('rm -rf ' + argv.home + '/.WebIde*/config/eval');
-    execute('sed -i \'/evlsprt/d\' ' + argv.home + '/.WebIde*/config/options/options.xml');
+    execute('rm -rf ' + argv.home + '/.PhpStorm*/config/eval');
+    execute('sed -i \'/evlsprt/d\' ' + argv.home + '/.PhpStorm*/config/options/options.xml');
     console.success("\n" + 'license renewed');
 }
 
@@ -83,17 +84,20 @@ function dlFromUrl(url, resolve, reject) {
     });
 }
 
-function dlIndex(i) {
-    var defer;
+function dlLastUrl(urls) {
+    var defer,
+        url;
 
-    if (i >= config.urls.length) {
+    if (urls.length === 0) {
         die('could not found a valid download source');
     }
 
-    console.log('Downloading from ' + chalk.cyan(config.urls[i]) + ' ..');
+    url = urls.pop();
+
+    console.log('Downloading from ' + chalk.cyan(url) + ' ..');
 
     defer = new Promise((resolve, reject) => {
-        dlFromUrl(config.urls[i], resolve, reject);
+        dlFromUrl(url, resolve, reject);
     });
 
     defer
@@ -105,8 +109,42 @@ function dlIndex(i) {
                 console.error(msg);
             }
 
-            dlIndex(i + 1);
+            dlLastUrl(urls);
         });
 }
 
-dlIndex(0);
+http(config.versions_page).get(config.versions_page, (res) => {
+        var body = '';
+
+        if (res.statusCode != 200) {
+            console.error('failed to load the versions page');
+            process.exit(1);
+        }
+
+        res.on('data', (chunk) => {
+            body += chunk;
+        });
+
+        res.on('end', () => {
+            var $,
+                $a,
+                urls = [];
+
+            $ = cheerio.load(body);
+
+            if (!($a = $('a[href^="viewpage.action?pageId="]')).length) {
+                console.error('no old version found');
+                process.exit(1);
+            }
+
+            $a.get().reverse().forEach((a) => {
+                urls.push(absolute(config.versions_page, $(a).attr('href')));
+            });
+
+            dlLastUrl(urls);
+        });
+
+    }).on('error', (e) => {
+        console.error('failed to load the versions page');
+        process.exit(1);
+    });
